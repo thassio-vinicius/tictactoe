@@ -5,12 +5,13 @@ import 'package:tictactoe/models/tictac_button.dart';
 import 'package:tictactoe/screens/components/marker_circle.dart';
 import 'package:tictactoe/screens/components/marker_cross.dart';
 
-class PlayersProvider extends ChangeNotifier {
+class GameProvider extends ChangeNotifier {
   List<TicTacButton> _buttonsList;
   List<int> _player1Moves = [];
   List<int> _player2Moves = [];
   Widget _player1Marker = CrossMarker();
   Widget _player2Marker = CircleMarker();
+  bool _isPlayerVsCpu = true;
   bool _player1Winner = false;
   bool _player2Winner = false;
   bool _tie = false;
@@ -23,12 +24,19 @@ class PlayersProvider extends ChangeNotifier {
   List<int> get player2Moves => _player2Moves;
   Widget get player1Marker => _player1Marker;
   Widget get player2Marker => _player2Marker;
+  bool get isPlayerVsCpu => _isPlayerVsCpu;
   bool get player1Winner => _player1Winner;
   bool get player2Winner => _player2Winner;
   bool get tie => _tie;
   String get playerInitials => _playerInitials;
   int get score => _score;
   int get currentPlayer => _currentPlayer;
+
+  void setGameplayOption({bool isPlayerVsCpu}) {
+    _isPlayerVsCpu = isPlayerVsCpu;
+
+    notifyListeners();
+  }
 
   void initGame() {
     _buttonsList = List.generate(9, (index) => TicTacButton(id: index));
@@ -53,20 +61,34 @@ class PlayersProvider extends ChangeNotifier {
       _player2Moves.add(button.id);
     }
     button.enabled = false;
-    _player1Winner = _checkForWinners(_player1Moves);
-    _player2Winner = _checkForWinners(_player2Moves);
-    if (!player1Winner && !player2Winner) {
-      if (_buttonsList.every((p) => p.marker != null)) {
-        _tie = true;
-      } else {
-        if (_currentPlayer == 2) await _cpuMove();
-      }
-    }
+    _player1Winner = _winConditions(_player1Moves);
+    _player2Winner = _winConditions(_player2Moves);
+
+    _checkForTie(button);
 
     notifyListeners();
   }
 
-  _checkForWinners(List playerMoves) {
+  _checkForTie(TicTacButton button) {
+    if (!_player1Winner && !_player2Winner) {
+      if (_buttonsList.every((p) => p.marker != null))
+        _tie = true;
+      else
+        _gameLoop(button);
+      //if (_currentPlayer == 2) if (_isPlayerVsCpu) _cpuMove(); else makeMove(button);
+    }
+  }
+
+  _gameLoop(button) {
+    if (_currentPlayer == 2) {
+      if (_isPlayerVsCpu)
+        _cpuMove();
+      else
+        makeMove(button);
+    }
+  }
+
+  _winConditions(List playerMoves) {
     bool winner = false;
 
     // row 1
@@ -129,7 +151,7 @@ class PlayersProvider extends ChangeNotifier {
     return winner;
   }
 
-  _cpuMove() async {
+  _cpuMove() {
     var emptyButtons = List();
     var tempList = List.generate(9, (i) => i + 1);
     for (var buttonId in tempList) {

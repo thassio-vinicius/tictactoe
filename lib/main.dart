@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'file:///C:/Users/Usuario/AndroidStudioProjects/tictactoe/lib/providers/players_provider.dart';
-import 'file:///C:/Users/Usuario/AndroidStudioProjects/tictactoe/lib/screens/home_screen.dart';
+import 'package:tictactoe/providers/game_provider.dart';
+import 'package:tictactoe/screens/home_screen.dart';
 
 void main() {
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => PlayersProvider()),
+      ChangeNotifierProvider<GameProvider>(create: (_) => GameProvider()),
     ],
     child: MaterialApp(
       home: HomeScreen(),
+      debugShowCheckedModeBanner: false,
     ),
   ));
 }
