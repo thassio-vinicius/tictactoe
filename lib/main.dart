@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tictactoe/providers/game_provider.dart';
-import 'package:tictactoe/screens/home_screen.dart';
+import 'package:tictactoe/screens/login_screen.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -9,7 +9,7 @@ void main() {
       ChangeNotifierProvider<GameProvider>(create: (_) => GameProvider()),
     ],
     child: MaterialApp(
-      home: HomeScreen(),
+      home: LoginScreen(),
       debugShowCheckedModeBanner: false,
     ),
   ));

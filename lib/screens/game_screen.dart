@@ -30,6 +30,7 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Center(
           child: Consumer<GameProvider>(
@@ -48,6 +49,10 @@ class _GameScreenState extends State<GameScreen> {
                         padding: const EdgeInsets.all(8.0),
                         onPressed: provider.buttonsList[i].enabled
                             ? () {
+                                print("make move current playe: " +
+                                    provider.currentPlayer.toString());
+                                print('is cpu: ' +
+                                    provider.isPlayerVsCpu.toString());
                                 provider.makeMove(provider.buttonsList[i]);
                                 _canShowDialog(provider);
                               }

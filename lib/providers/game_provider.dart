@@ -48,7 +48,7 @@ class GameProvider extends ChangeNotifier {
     _player2Moves.clear();
   }
 
-  void makeMove(TicTacButton button) async {
+  void makeMove(TicTacButton button) {
     if (_currentPlayer == 1) {
       button.marker = _player1Marker;
       //button.bg = Colors.red;
@@ -74,18 +74,31 @@ class GameProvider extends ChangeNotifier {
       if (_buttonsList.every((p) => p.marker != null))
         _tie = true;
       else
-        _gameLoop(button);
-      //if (_currentPlayer == 2) if (_isPlayerVsCpu) _cpuMove(); else makeMove(button);
+        _cpuLoop(button);
     }
   }
 
-  _gameLoop(button) {
-    if (_currentPlayer == 2) {
-      if (_isPlayerVsCpu)
-        _cpuMove();
-      else
-        makeMove(button);
+  _cpuLoop(button) {
+    if (_currentPlayer == 2) if (_isPlayerVsCpu) _cpuMove();
+  }
+
+  _cpuMove() {
+    var emptyButtons = List();
+    var tempList = List.generate(9, (i) => i + 1);
+    for (var buttonId in tempList) {
+      if (!(_player1Moves.contains(buttonId) ||
+          _player2Moves.contains(buttonId))) {
+        emptyButtons.add(buttonId);
+      }
     }
+
+    Random r = Random();
+    int randomIndex = r.nextInt(emptyButtons.length - 1);
+    int moveId = emptyButtons[randomIndex];
+    int i = _buttonsList.indexWhere((element) => element.id == moveId);
+
+    makeMove(_buttonsList[i]);
+    notifyListeners();
   }
 
   _winConditions(List playerMoves) {
@@ -149,24 +162,5 @@ class GameProvider extends ChangeNotifier {
     notifyListeners();
 
     return winner;
-  }
-
-  _cpuMove() {
-    var emptyButtons = List();
-    var tempList = List.generate(9, (i) => i + 1);
-    for (var buttonId in tempList) {
-      if (!(_player1Moves.contains(buttonId) ||
-          _player2Moves.contains(buttonId))) {
-        emptyButtons.add(buttonId);
-      }
-    }
-
-    Random r = Random();
-    int randomIndex = r.nextInt(emptyButtons.length - 1);
-    int moveId = emptyButtons[randomIndex];
-    int i = _buttonsList.indexWhere((element) => element.id == moveId);
-
-    makeMove(_buttonsList[i]);
-    notifyListeners();
   }
 }
