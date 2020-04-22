@@ -30,6 +30,7 @@ dependencies:
   firebase_core: ^0.4.4+3
   flutter_facebook_login: ^3.0.0
   google_fonts: ^0.6.2
+  google_sign_in: ^4.4.4
 
 
 dev_dependencies:

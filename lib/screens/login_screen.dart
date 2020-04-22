@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:tictactoe/providers/authentication_provider.dart';
 import 'package:tictactoe/screens/home_screen.dart';
 import 'package:tictactoe/utils/hex_color.dart';
 
@@ -46,22 +48,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     _buildLoginOption(
                       loginText: 'Log in with Facebook',
                       buttonColor: HexColor('#8AD0F6'),
-                      onLoginTap: () => _onLoginTap(),
+                      onLoginTap: () => _onLoginTap(LoginOptions.facebook),
                     ),
                     _buildLoginOption(
                       loginText: 'Log in with Google',
                       buttonColor: Colors.white,
-                      onLoginTap: () => _onLoginTap(),
+                      onLoginTap: () => _onLoginTap(LoginOptions.google),
                     ),
                     _buildLoginOption(
                       loginText: 'Log in with e-mail',
                       buttonColor: HexColor('#6FB352'),
-                      onLoginTap: () => _onLoginTap(),
+                      onLoginTap: () => _onLoginTap(LoginOptions.email),
                     ),
                     _buildLoginOption(
                       loginText: 'Sign in anonymously',
                       buttonColor: HexColor('#CB2376'),
-                      onLoginTap: () => _onLoginTap(),
+                      onLoginTap: () => _onLoginTap(LoginOptions.anonymous),
                     ),
                   ],
                 ),
@@ -94,8 +96,27 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  _onLoginTap() {
-    return Navigator.pushReplacement(
+  _onLoginTap(LoginOptions options) async {
+    switch (options) {
+      case LoginOptions.anonymous:
+        await Provider.of<AuthenticationProvider>(context, listen: false)
+            .anonymousSignIn();
+        break;
+      case LoginOptions.facebook:
+        await Provider.of<AuthenticationProvider>(context, listen: false)
+            .facebookSignIn(options);
+        break;
+      case LoginOptions.google:
+        await Provider.of<AuthenticationProvider>(context, listen: false)
+            .googleSignIn();
+        break;
+      case LoginOptions.email:
+        await Provider.of<AuthenticationProvider>(context, listen: false)
+            .emailSignIn('thassinhoster@gmail.com', '123456');
+        break;
+    }
+
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (_) => HomeScreen(),
@@ -103,5 +124,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-//enum LoginOptions { anonymous, facebook, google, email }

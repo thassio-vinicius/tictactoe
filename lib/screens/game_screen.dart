@@ -49,10 +49,6 @@ class _GameScreenState extends State<GameScreen> {
                         padding: const EdgeInsets.all(8.0),
                         onPressed: provider.buttonsList[i].enabled
                             ? () {
-                                print("make move current playe: " +
-                                    provider.currentPlayer.toString());
-                                print('is cpu: ' +
-                                    provider.isPlayerVsCpu.toString());
                                 provider.makeMove(provider.buttonsList[i]);
                                 _canShowDialog(provider);
                               }

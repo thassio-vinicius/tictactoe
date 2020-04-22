@@ -1,0 +1,6 @@
+
+<resources>
+    <string name="app_name">com.example.tictactoe</string>
+            <string name="facebook_app_id">663321717821821</string>
+            <string name="fb_login_protocol_scheme">fb663321717821821</string>
+</resources>

@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 
 class User {
-  String id;
-  String name;
+  String uid;
+  String displayName;
   String email;
   String photoUrl;
   String ranking;
   int score;
 
   User({
-    @required this.name,
+    @required this.displayName,
     @required this.email,
-    this.id,
+    this.uid,
     this.photoUrl,
     this.ranking,
     this.score,
@@ -19,20 +19,20 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      name: json['name'],
+      displayName: json['displayName'],
       email: json['email'],
       score: json['score'],
-      id: json['id'],
+      uid: json['uid'],
       photoUrl: json['photoUrl'],
       ranking: json['ranking'],
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'name': this.name,
+        'displayName': this.displayName,
         'email': this.email,
         'score': this.score,
-        'id': this.id,
+        'uid': this.uid,
         'photoUrl': this.photoUrl,
         'ranking': this.ranking,
       };
