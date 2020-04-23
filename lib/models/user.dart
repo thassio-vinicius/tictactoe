@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 class User {
   String uid;
   String displayName;
+  String password;
   String email;
   String photoUrl;
   String ranking;
@@ -11,6 +12,7 @@ class User {
   User({
     @required this.displayName,
     @required this.email,
+    this.password,
     this.uid,
     this.photoUrl,
     this.ranking,
@@ -21,6 +23,7 @@ class User {
     return User(
       displayName: json['displayName'],
       email: json['email'],
+      password: json['password'],
       score: json['score'],
       uid: json['uid'],
       photoUrl: json['photoUrl'],
@@ -31,6 +34,7 @@ class User {
   Map<String, dynamic> toJson() => {
         'displayName': this.displayName,
         'email': this.email,
+        'password': this.password,
         'score': this.score,
         'uid': this.uid,
         'photoUrl': this.photoUrl,

@@ -12,7 +12,7 @@ void main() {
           create: (_) => AuthenticationProvider())
     ],
     child: MaterialApp(
-      home: LoginScreen(),
+      home: SignOptionsScreen(screens: Screens.initialScreen),
       debugShowCheckedModeBanner: false,
     ),
   ));
