@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:tictactoe/models/tictac_button.dart';
-import 'package:tictactoe/screens/components/marker_circle.dart';
-import 'package:tictactoe/screens/components/marker_cross.dart';
+import 'package:tictactoe/screens/components/game_components/marker_circle.dart';
+import 'package:tictactoe/screens/components/game_components/marker_cross.dart';
 
 class GameProvider extends ChangeNotifier {
   List<TicTacButton> _buttonsList;

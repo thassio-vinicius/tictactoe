@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tictactoe/providers/game_provider.dart';
 
-import 'components/custom_alertdialog.dart';
+import 'components/game_components/custom_alertdialog.dart';
 
 class GameScreen extends StatefulWidget {
   @override

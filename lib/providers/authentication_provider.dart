@@ -16,7 +16,16 @@ class AuthenticationProvider extends ChangeNotifier {
     AuthResult auth = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
 
-    checkAndAddUser(auth: auth);
+    _checkAndAddUser(auth: auth);
+  }
+
+  emailSignUp({User user}) async {
+    AuthResult auth = await _auth.createUserWithEmailAndPassword(
+      email: user.email.toLowerCase().trim().replaceAll(' ', ''),
+      password: user.password,
+    );
+
+    _checkAndAddUser(auth: auth);
   }
 
   anonymousSignIn() async {
@@ -39,7 +48,7 @@ class AuthenticationProvider extends ChangeNotifier {
       case FacebookLoginStatus.loggedIn:
         auth = await _auth.signInWithCredential(credential);
 
-        checkAndAddUser(auth: auth);
+        _checkAndAddUser(auth: auth);
         break;
       case FacebookLoginStatus.cancelledByUser:
         print("Facebook login cancelled");
@@ -60,19 +69,16 @@ class AuthenticationProvider extends ChangeNotifier {
 
     AuthResult auth = await _auth.signInWithCredential(credential);
 
-    await checkAndAddUser(auth: auth);
+    await _checkAndAddUser(auth: auth);
   }
 
-  checkAndAddUser({AuthResult auth, User user, bool isSignUp = false}) async {
-    var userAsMap;
-    if (auth != null) {
-      userAsMap = User(
-        displayName: auth.user.displayName,
-        email: auth.user.email,
-        photoUrl: auth.user.photoUrl,
-        uid: auth.user.uid,
-      ).toJson();
-    }
+  _checkAndAddUser({AuthResult auth}) async {
+    var userAsMap = User(
+      displayName: auth.user.displayName,
+      email: auth.user.email,
+      photoUrl: auth.user.photoUrl,
+      uid: auth.user.uid,
+    ).toJson();
 
     await _firestore.collection('users').getDocuments().then((docs) {
       if (docs.documents.isEmpty) {
@@ -82,20 +88,11 @@ class AuthenticationProvider extends ChangeNotifier {
             .setData(userAsMap);
       } else {
         for (int i = 0; i < docs.documents.length; i++) {
-          if (isSignUp) {
-            if (docs.documents[i].data['email'] != user.email) {
-              _firestore
-                  .collection('users')
-                  .document(user.email)
-                  .setData(user.toJson());
-            }
-          } else {
-            if (docs.documents[i].data['email'] != auth.user.email) {
-              _firestore
-                  .collection('users')
-                  .document(userAsMap['email'])
-                  .setData(userAsMap);
-            }
+          if (docs.documents[i].data['email'] != auth.user.email) {
+            _firestore
+                .collection('users')
+                .document(userAsMap['email'])
+                .setData(userAsMap);
           }
         }
       }
