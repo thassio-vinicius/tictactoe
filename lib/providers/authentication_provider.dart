@@ -4,13 +4,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tictactoe/models/user.dart';
+import 'package:tictactoe/providers/user_provider.dart';
 
 class AuthenticationProvider extends ChangeNotifier {
   FirebaseUser _user;
   var _auth = FirebaseAuth.instance;
   Firestore _firestore = Firestore();
+  UserProvider userProvider;
 
   FirebaseUser get user => _user;
+
+  AuthenticationProvider({this.userProvider});
 
   emailSignIn(String email, String password) async {
     AuthResult auth = await _auth.signInWithEmailAndPassword(
@@ -73,12 +77,17 @@ class AuthenticationProvider extends ChangeNotifier {
   }
 
   _checkAndAddUser({AuthResult auth}) async {
-    var userAsMap = User(
+    var user = User(
       displayName: auth.user.displayName,
       email: auth.user.email,
       photoUrl: auth.user.photoUrl,
       uid: auth.user.uid,
-    ).toJson();
+      score: 0,
+    );
+
+    var userAsMap = user.toJson();
+
+    userProvider.user = user;
 
     await _firestore.collection('users').getDocuments().then((docs) {
       if (docs.documents.isEmpty) {

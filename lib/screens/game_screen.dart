@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tictactoe/providers/game_provider.dart';
+import 'package:tictactoe/providers/user_provider.dart';
 
 import 'components/game_components/custom_alertdialog.dart';
 
@@ -72,6 +73,8 @@ class _GameScreenState extends State<GameScreen> {
               "Press the reset button to start again.", _resetGame));
     }
     if (provider.player1Winner || provider.player2Winner) {
+      Provider.of<UserProvider>(context, listen: false).updateUserScore();
+
       showDialog(
           context: context,
           builder: (_) => CustomAlertDialog(

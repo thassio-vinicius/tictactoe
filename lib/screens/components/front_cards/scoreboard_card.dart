@@ -3,12 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tictactoe/utils/hex_color.dart';
 
-class ScoreboardCard extends StatefulWidget {
-  @override
-  _ScoreboardCardState createState() => _ScoreboardCardState();
-}
+class ScoreboardCard extends StatelessWidget {
+  final String name;
+  final String starPath;
+  final String circleAvatarPath;
+  final String arrowPath;
+  final int score;
+  final int position;
+  final photoUrl;
 
-class _ScoreboardCardState extends State<ScoreboardCard> {
+  ScoreboardCard({
+    @required this.score,
+    @required this.position,
+    @required this.name,
+    @required this.arrowPath,
+    @required this.circleAvatarPath,
+    @required this.starPath,
+    this.photoUrl,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,29 +48,38 @@ class _ScoreboardCardState extends State<ScoreboardCard> {
   _buildPlayerAvatar() {
     return Stack(
       children: <Widget>[
-        Image.asset('assets/images/circle_first.png'),
+        Image.asset('assets/images/$circleAvatarPath.png'),
         Positioned.fill(
-            child: CircleAvatar(
-          backgroundColor: Colors.red,
-        ))
+          child: photoUrl == null
+              ? Image.asset(
+                  'assets/images/user_example.png',
+                  fit: BoxFit.scaleDown,
+                )
+              : Image.network(
+                  photoUrl,
+                  fit: BoxFit.scaleDown,
+                ),
+        )
       ],
     );
   }
 
   _buildPlayerNameAndPosition() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Text(
-          'NameFor Testing Alright',
+          name,
           style: GoogleFonts.montserratAlternates(
               color: Colors.white, fontSize: 16, fontWeight: FontWeight.w800),
         ),
         Stack(
           children: <Widget>[
-            Image.asset('assets/images/icons/star_first.png'),
-            Center(
+            Image.asset('assets/images/icons/$starPath.png'),
+            Positioned.fill(
               child: Text(
-                '1º',
+                '$positionº',
                 style: GoogleFonts.montserratAlternates(
                     fontWeight: FontWeight.w800,
                     fontSize: 18,
@@ -74,14 +96,14 @@ class _ScoreboardCardState extends State<ScoreboardCard> {
     return Row(
       children: <Widget>[
         Text(
-          '500 pts',
+          '$score pts',
           style: GoogleFonts.montserratAlternates(
             fontWeight: FontWeight.w800,
             fontSize: 14,
             color: HexColor('#F7EC40'),
           ),
         ),
-        Image.asset('assets/images/icons/arrow_up_first.png')
+        Image.asset('assets/images/icons/$arrowPath.png')
       ],
     );
   }
