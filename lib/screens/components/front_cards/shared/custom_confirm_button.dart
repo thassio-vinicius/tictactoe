@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tictactoe/models/user.dart';
 import 'package:tictactoe/providers/authentication_provider.dart';
-import 'package:tictactoe/screens/home_screen.dart';
+import 'package:tictactoe/screens/background_screen.dart';
 import 'package:tictactoe/utils/hex_color.dart';
 
 class ConfirmButton extends StatelessWidget {
@@ -52,7 +52,7 @@ class ConfirmButton extends StatelessWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => HomeScreen(),
+        builder: (_) => BackgroundScreen(screens: Screens.homeScreen),
       ),
     );
   }

@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tictactoe/screens/components/login_components/signin_card.dart';
-import 'package:tictactoe/screens/components/login_components/signoptions_card.dart';
-import 'package:tictactoe/screens/components/login_components/signup_card.dart';
+import 'package:tictactoe/screens/components/front_cards/menu_card.dart';
+import 'package:tictactoe/screens/components/front_cards/signin_card.dart';
+import 'package:tictactoe/screens/components/front_cards/signoptions_card.dart';
+import 'package:tictactoe/screens/components/front_cards/signup_card.dart';
+import 'package:tictactoe/screens/options_screen.dart';
 
-class SignOptionsScreen extends StatefulWidget {
+class BackgroundScreen extends StatefulWidget {
   final Screens screens;
 
-  SignOptionsScreen({@required this.screens});
+  BackgroundScreen({@required this.screens});
 
   @override
-  _SignOptionsScreenState createState() => _SignOptionsScreenState();
+  _BackgroundScreenState createState() => _BackgroundScreenState();
 }
 
-class _SignOptionsScreenState extends State<SignOptionsScreen> {
+class _BackgroundScreenState extends State<BackgroundScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +49,8 @@ class _SignOptionsScreenState extends State<SignOptionsScreen> {
                           fit: BoxFit.scaleDown,
                         ),
                       ),
-                      if (!(widget.screens == Screens.signUpScreen))
+                      if ((widget.screens == Screens.initialScreen) ||
+                          (widget.screens == Screens.signInScreen))
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
@@ -82,8 +85,20 @@ class _SignOptionsScreenState extends State<SignOptionsScreen> {
       case Screens.signInScreen:
         return SignInCard();
         break;
+      case Screens.homeScreen:
+        return MenuCard();
+        break;
+      case Screens.optionsScreen:
+        return OptionsScreen();
+        break;
     }
   }
 }
 
-enum Screens { initialScreen, signUpScreen, signInScreen }
+enum Screens {
+  initialScreen,
+  signUpScreen,
+  signInScreen,
+  homeScreen,
+  optionsScreen
+}

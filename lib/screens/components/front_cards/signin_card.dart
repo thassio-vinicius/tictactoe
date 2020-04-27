@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tictactoe/screens/components/login_components/shared/confirm_button.dart';
-import 'package:tictactoe/screens/components/login_components/shared/custom_textfield.dart';
+import 'package:tictactoe/screens/components/front_cards/shared/custom_confirm_button.dart';
+import 'package:tictactoe/screens/components/front_cards/shared/custom_textfield.dart';
 
 class SignInCard extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();

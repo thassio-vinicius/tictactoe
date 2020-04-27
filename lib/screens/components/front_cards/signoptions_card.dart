@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tictactoe/providers/authentication_provider.dart';
-import 'package:tictactoe/screens/components/login_components/shared/custom_signin_button.dart';
-import 'package:tictactoe/screens/home_screen.dart';
-import 'package:tictactoe/screens/login_screen.dart';
+import 'package:tictactoe/screens/background_screen.dart';
+import 'package:tictactoe/screens/components/front_cards/shared/custom_button.dart';
 import 'package:tictactoe/utils/hex_color.dart';
 
 class SignOptionsCard extends StatefulWidget {
@@ -13,20 +13,27 @@ class SignOptionsCard extends StatefulWidget {
 
 class _SignOptionsCardState extends State<SignOptionsCard> {
   @override
+  void initState() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setEnabledSystemUIOverlays([]);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        CustomSignInButton(
-          buttonText: 'Sign in with e-mail',
+        CustomButton(
+          buttonLabel: 'Sign in with e-mail',
           buttonColor: HexColor('#CB2376'),
-          onLoginTap: () => _onLoginTap(LoginOptions.email, context),
+          onTap: () => _onLoginTap(LoginOptions.email, context),
         ),
-        CustomSignInButton(
-          buttonText: 'Sign in anonymously',
+        CustomButton(
+          buttonLabel: 'Sign in anonymously',
           buttonColor: HexColor('#6FB352'),
-          onLoginTap: () => _onLoginTap(LoginOptions.anonymous, context),
+          onTap: () => _onLoginTap(LoginOptions.anonymous, context),
         ),
         Container(
           width: MediaQuery.of(context).size.width,
@@ -46,12 +53,12 @@ class _SignOptionsCardState extends State<SignOptionsCard> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               _googleFacebookSignOptions(
-                asset: 'assets/images/google_logo.png',
+                asset: 'assets/images/icons/google_logo.png',
                 onTap: () => _onLoginTap(LoginOptions.google, context),
                 label: 'Sign In with Google',
               ),
               _googleFacebookSignOptions(
-                asset: 'assets/images/facebook_logo.png',
+                asset: 'assets/images/icons/facebook_logo.png',
                 onTap: () => _onLoginTap(LoginOptions.facebook, context),
                 label: 'Sign In with Facebook',
               ),
@@ -71,7 +78,7 @@ class _SignOptionsCardState extends State<SignOptionsCard> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => HomeScreen(),
+            builder: (_) => BackgroundScreen(screens: Screens.homeScreen),
           ),
         );
         break;
@@ -82,7 +89,7 @@ class _SignOptionsCardState extends State<SignOptionsCard> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => HomeScreen(),
+            builder: (_) => BackgroundScreen(screens: Screens.homeScreen),
           ),
         );
         break;
@@ -93,7 +100,7 @@ class _SignOptionsCardState extends State<SignOptionsCard> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => HomeScreen(),
+            builder: (_) => BackgroundScreen(screens: Screens.homeScreen),
           ),
         );
         break;
@@ -102,7 +109,7 @@ class _SignOptionsCardState extends State<SignOptionsCard> {
             context,
             MaterialPageRoute(
                 builder: (_) =>
-                    SignOptionsScreen(screens: Screens.signInScreen)));
+                    BackgroundScreen(screens: Screens.signInScreen)));
         break;
     }
   }
@@ -125,7 +132,7 @@ class _SignOptionsCardState extends State<SignOptionsCard> {
               context,
               MaterialPageRoute(
                   builder: (_) =>
-                      SignOptionsScreen(screens: Screens.signUpScreen))),
+                      BackgroundScreen(screens: Screens.signUpScreen))),
           child: Text(
             'Sign Up!',
             style: TextStyle(
@@ -176,7 +183,7 @@ class _SignOptionsCardState extends State<SignOptionsCard> {
             children: <Widget>[
               Image.asset(asset),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0),
+                padding: const EdgeInsets.only(left: 12.0),
                 child: Text(
                   label,
                   style: TextStyle(

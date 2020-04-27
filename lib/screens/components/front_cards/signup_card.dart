@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tictactoe/screens/components/login_components/shared/confirm_button.dart';
-import 'package:tictactoe/screens/components/login_components/shared/custom_textfield.dart';
+import 'package:tictactoe/screens/components/front_cards/shared/custom_confirm_button.dart';
+import 'package:tictactoe/screens/components/front_cards/shared/custom_textfield.dart';
 
 class SignUpCard extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();

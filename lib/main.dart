@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tictactoe/providers/authentication_provider.dart';
 import 'package:tictactoe/providers/game_provider.dart';
-import 'package:tictactoe/screens/login_screen.dart';
+import 'package:tictactoe/screens/background_screen.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -12,7 +12,7 @@ void main() {
           create: (_) => AuthenticationProvider())
     ],
     child: MaterialApp(
-      home: SignOptionsScreen(screens: Screens.initialScreen),
+      home: BackgroundScreen(screens: Screens.initialScreen),
       debugShowCheckedModeBanner: false,
     ),
   ));
